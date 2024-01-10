@@ -19,7 +19,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private MyUser MyUser;
+    private MyUser myUser;
 
     @ManyToOne
     private ShoppingList shoppingList;
@@ -65,7 +65,7 @@ public class Product {
     }
 
     public fr.uge.foodstock.foodstockversionf.entity.MyUser getMyUser() {
-        return MyUser;
+        return myUser;
     }
 
     public void setGlucid(Integer glucid) {
@@ -77,7 +77,7 @@ public class Product {
     }
 
     public void setMyUser(fr.uge.foodstock.foodstockversionf.entity.MyUser myUser) {
-        MyUser = myUser;
+        myUser = myUser;
     }
 
     public void setName(String name) {

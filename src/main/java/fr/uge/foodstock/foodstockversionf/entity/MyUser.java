@@ -17,7 +17,7 @@ public class MyUser {
     private String password;
 
 
-    @OneToMany(mappedBy = "MyUser")
+    @OneToMany(mappedBy = "myUser")
     private List<Product> products;
 
     public MyUser(String firstname, String userName, String email, String password){

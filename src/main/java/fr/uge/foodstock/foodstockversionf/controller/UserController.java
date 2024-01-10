@@ -1,6 +1,7 @@
 package fr.uge.foodstock.foodstockversionf.controller;
 
 import fr.uge.foodstock.foodstockversionf.entity.MyUser;
+import fr.uge.foodstock.foodstockversionf.entity.Product;
 import fr.uge.foodstock.foodstockversionf.repository.UserRepository;
 import jdk.javadoc.doclet.Reporter;
 import org.apache.catalina.User;
@@ -35,8 +36,13 @@ public class  UserController {
 
     @PostMapping
     public ResponseEntity<MyUser> createUser(@RequestBody MyUser user) {
+        if (user.getProducts() != null) {
+            for (Product product : user.getProducts()) {
+                product.setMyUser(user); // Associer chaque produit à l'utilisateur
+            }
+        }
         userRepository.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
 }
