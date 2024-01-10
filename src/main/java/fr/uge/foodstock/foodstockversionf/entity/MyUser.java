@@ -28,7 +28,7 @@ public class MyUser {
     }
 
     public MyUser(MyUser user){
-        System.out.println("ccsss");
+        System.out.println("cclfùesss");
     }
 
     public  MyUser(){
