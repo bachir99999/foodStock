@@ -1,13 +1,17 @@
 package fr.uge.foodstock.foodstockversionf.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private Long barcode;
@@ -64,7 +68,7 @@ public class Product {
         this.shoppingList = shoppingList;
     }
 
-    public fr.uge.foodstock.foodstockversionf.entity.MyUser getMyUser() {
+    public MyUser getMyUser() {
         return myUser;
     }
 
@@ -76,8 +80,8 @@ public class Product {
         this.lipid = lipid;
     }
 
-    public void setMyUser(fr.uge.foodstock.foodstockversionf.entity.MyUser myUser) {
-        myUser = myUser;
+    public void setMyUser(MyUser myUser) {
+        this.myUser = myUser;
     }
 
     public void setName(String name) {

@@ -2,7 +2,9 @@ package fr.uge.foodstock.foodstockversionf.controller;
 
 import fr.uge.foodstock.foodstockversionf.entity.MyUser;
 import fr.uge.foodstock.foodstockversionf.entity.Product;
+import fr.uge.foodstock.foodstockversionf.repository.ProductRepository;
 import fr.uge.foodstock.foodstockversionf.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import jdk.javadoc.doclet.Reporter;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class  UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @GetMapping
     public ResponseEntity<List<MyUser>> getAllUsers() {
@@ -35,15 +40,21 @@ public class  UserController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<MyUser> createUser(@RequestBody MyUser user) {
-        if (user.getProducts() != null) {
-            for (Product product : user.getProducts()) {
-                product.setMyUser(user); // Associer chaque produit à l'utilisateur
+        MyUser savedUser = userRepository.save(user);
+
+        if (savedUser.getProducts() != null) {
+            for (Product product : savedUser.getProducts()) {
+                product.setMyUser(savedUser);
+                productRepository.save(product);
             }
         }
-        userRepository.save(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        List<Product> p = user.getProducts();
+        var  l = p.size();
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
+
 
 }
 
