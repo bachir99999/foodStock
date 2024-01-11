@@ -1,16 +1,13 @@
 package fr.uge.foodstock.foodstockversionf.controller;
 
-import fr.uge.foodstock.foodstockversionf.entity.MyUser;
 import fr.uge.foodstock.foodstockversionf.entity.Product;
 import fr.uge.foodstock.foodstockversionf.entity.ShoppingList;
-import fr.uge.foodstock.foodstockversionf.repository.ProductRepository;
 import fr.uge.foodstock.foodstockversionf.repository.ShoppingListRepository;
 import fr.uge.foodstock.foodstockversionf.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -80,20 +77,22 @@ public class ShoppingListController {
     }
 
     @PostMapping("/{idUser}/products")
-    public ResponseEntity<Product> postProductToShoppingList(
+    public ResponseEntity<List<Product>> postProductToShoppingList(
             @PathVariable("idUser") long idUser,
             @RequestBody Product newProduct) {
-
-        var shoppingListOptional = shoppingListRepository.findById(idUser);
-
+        var shoppingListOptional = shoppingListRepository.findByUserId(idUser);
+        var myUser = userRepository.findById(idUser);
+        newProduct.setMyUser(myUser.get());
+        ShoppingList shoppingList;
         if (shoppingListOptional.isPresent()) {
-            var shoppingList = shoppingListOptional.get();
-            shoppingList.addProduct(newProduct);
-            shoppingListRepository.save(shoppingList);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
+            shoppingList = shoppingListOptional.get();
         } else {
-            return ResponseEntity.notFound().build();
+            shoppingList = new ShoppingList();
         }
+        shoppingList.setMyUser(myUser.get());
+        shoppingList.addProduct(newProduct);
+        shoppingListRepository.save(shoppingList);
+        return ResponseEntity.status(HttpStatus.CREATED).body(myUser.get().getProducts());
     }
 
     @DeleteMapping("/{idUser}/products/{barcode}")

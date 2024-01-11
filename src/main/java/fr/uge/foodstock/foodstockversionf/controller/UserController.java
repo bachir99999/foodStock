@@ -48,11 +48,7 @@ public class  UserController {
                 productRepository.save(product);
             }
         }
-        List<Product> p = user.getProducts();
-        var  l = p.size();
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
-
-
 }
 

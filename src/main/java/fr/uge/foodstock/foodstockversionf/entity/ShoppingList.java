@@ -3,6 +3,7 @@ package fr.uge.foodstock.foodstockversionf.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,8 +19,7 @@ public class ShoppingList {
     private MyUser user;
 
     @OneToMany(mappedBy = "shoppingList", cascade = CascadeType.ALL)
-    private List<Product> products;
-
+    private List<Product> products = new ArrayList<>();
 
     public ShoppingList(){}
 
