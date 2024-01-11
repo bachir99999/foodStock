@@ -28,6 +28,16 @@ public class Product {
     @ManyToOne
     private ShoppingList shoppingList;
 
+    @ManyToOne
+    private Recipe recipe;
+
+    public Product(Long id, Long barcode){
+        setId(id);
+        setBarcode(barcode);
+    }
+
+    public Product(){}
+
     public ShoppingList getShoppingList() {
         return shoppingList;
     }

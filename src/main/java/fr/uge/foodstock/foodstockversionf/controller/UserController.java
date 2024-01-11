@@ -5,8 +5,6 @@ import fr.uge.foodstock.foodstockversionf.entity.Product;
 import fr.uge.foodstock.foodstockversionf.repository.ProductRepository;
 import fr.uge.foodstock.foodstockversionf.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import jdk.javadoc.doclet.Reporter;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
